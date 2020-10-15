@@ -23,4 +23,6 @@ int main()
 	CarID = HONDA;
 	std::cout << "the cost of my car is: " << CurrentCost << std::endl;
 	std::cout << "My car ID is: " << CarID << std::endl;
+
+	return 0;
 }
