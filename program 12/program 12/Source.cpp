@@ -25,7 +25,7 @@ int main()
 		break;
 	}
 	}
-	if (answer = 1)
+	if (answer == 1)
 	{
 		 if (numtemp>15)
 		{
@@ -38,7 +38,7 @@ int main()
 
 	}
 
-	else if (answer = 2)
+	else if (answer == 2)
 	{
 		if (numtemp > 5)
 		{
