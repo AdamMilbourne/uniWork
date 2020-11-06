@@ -1,25 +1,33 @@
 #include <iostream>
+using namespace std;
 
 int main()
 {
-	int num1{}, num2{}, num3{}, sum{}, mean{};
+	float sum{}, mean{}, num1{}, num2{}, Newestnum{};
 
-	std::cout << "enter 1 number" << std::endl;
-	std::cin >> num1;
+	cout << "enter two numbers\n";
+	cin >> num1;
+	cin >> num2;
 
-	std::cout << "enter another number" << std::endl;
-	std::cin >> num2;
 
-	sum = num1 + num2;
-	mean = (num1 + num2) / 2;
-	std::cout << "The sum is: " << sum << " The mean is: " << mean << std::endl;
+	sum = (num1 + num2);
+	mean = (sum / 2);
+	cout << "sum: " << sum << " mean: " << mean << endl;
 
-	std::cout << "enter a 3rd number" << std::endl;
-	std::cin >> num3;
-
-	sum = sum + num3;
-	mean = (num1 + num2 + num3) / 3;
-	std::cout << "The sum is: " << sum << " The mean is: " << mean << std::endl;
-	
-	
+	for (int i = 2; i++;)
+	{
+		cout << "enter another number or 0 to exit" << endl;
+		cin >> Newestnum;
+		if (Newestnum == 0)
+		{
+			cout << "thanks for playing" << endl;
+			break;
+		}
+		sum = (sum + Newestnum);
+		mean = (sum / i);
+		cout << "sum: " << sum << " mean: " << mean << endl;
+	}
 }
+
+
+
