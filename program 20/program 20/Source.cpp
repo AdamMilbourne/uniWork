@@ -6,6 +6,7 @@ bool Playing = true;
 
 bool playState(bool Playing)
 {
+	Playing = true;
 	char playAgain;
 	if (enemyHealth <= 0)
 	{
@@ -16,11 +17,13 @@ bool playState(bool Playing)
 		{
 			enemyHealth = 2000;
 			playerHealth = 1000;
-			return true;
+			Playing = true;
+			return Playing;
 		}
-		else
+		if (playAgain == 'n' || playAgain == 'N')
 		{
-			return false;
+			Playing = false;
+			return Playing;
 		}
 	}	
 	if (playerHealth <= 0)
@@ -32,14 +35,16 @@ bool playState(bool Playing)
 		{
 			enemyHealth = 2000;
 			playerHealth = 1000;
-			return true;
+			Playing = true;
+			return Playing;
 		}
-		else
+		if (playAgain == 'n' || playAgain == 'N')
 		{
-			return false;
-		}		
-	}	
+			Playing = false;
+			return Playing;
+		}	
 
+	}	
 }
 
 int attackNothing()
@@ -82,15 +87,10 @@ int attackChoice(int playerChoice)
 int main()
 {	
 	int playerChoice{};
-	if (Playing == false)
-	{
-		cout << "Thanks for playing" << endl;
-	}
-
+	playState(Playing);
 	cout << "You have encountered a troll, you have 3 choices of attack" << endl;
 	while (Playing == true)
 	{
-
 		cout << "1. Use sword, 2. Use magic, 3. Use axe\n Your sword will do little damage but quickly,\n your magic will do large amounts of magic damage very slowly,\n your axe will do a medium amount of damage at a medium speed" << endl;
 		cin >> playerChoice;
 		attackChoice(playerChoice);
@@ -98,7 +98,11 @@ int main()
 		{
 			playState(Playing);
 		}
+	
 	}
-
+	if (Playing == false)
+	{
+		cout << "Thanks for playing" << endl;
+	}
 	
 }
