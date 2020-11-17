@@ -87,7 +87,7 @@ int main()
 {
 	int playerChoice{};
 	playState(Playing);
-	if (Playing == false)
+	if (!Playing)
 	{
 		cout << "Thanks for playing" << endl;
 	}
