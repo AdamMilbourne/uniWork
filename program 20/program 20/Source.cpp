@@ -17,12 +17,12 @@ bool playState(bool Playing)
 			enemyHealth = 2000;
 			playerHealth = 1000;
 			Playing = true;
-			return Playing;
+			
 		}
-		if (playAgain == 'n' || playAgain == 'N')
+		else if (playAgain == 'n' || playAgain == 'N')
 		{
 			Playing = !Playing;
-			return Playing;
+			
 		}
 	}	
 	if (playerHealth <= 0)
@@ -35,15 +35,16 @@ bool playState(bool Playing)
 			enemyHealth = 2000;
 			playerHealth = 1000;
 			Playing = true;
-			return Playing;
+		
 		}
 		if (playAgain == 'n' || playAgain == 'N')
 		{
 			Playing = !Playing;
-			return Playing;
+
 		}	
 
 	}	
+	return Playing;
 }
 
 int attackNothing()
@@ -74,10 +75,36 @@ int attackChoice(int playerChoice)
 		cout << "Enemy health is: " << enemyHealth << endl;
 		break;
 	case 2:
-		cout << "this is choice 2" << endl;
+		enemyHealth = enemyHealth - magicDamage;
+		playerHealth = playerHealth - trollMagic;
+		cout << "*THWACK* You have hit the troll" << endl;
+		cout << "*SWISH* You have been hit" << endl;
+		if (playerHealth < 0)
+		{
+			playerHealth = 0;
+		}
+		if (enemyHealth < 0)
+		{
+			enemyHealth = 0;
+		}
+		cout << "Your health is: " << playerHealth << endl;
+		cout << "Enemy health is: " << enemyHealth << endl;
 		break;
 	case 3:
-		cout << "this is choice 3" << endl;
+		enemyHealth = enemyHealth - axeDamage;
+		playerHealth = playerHealth - trollAxe;
+		cout << "*THWACK* You have hit the troll" << endl;
+		cout << "*SWISH* You have been hit" << endl;
+		if (playerHealth < 0)
+		{
+			playerHealth = 0;
+		}
+		if (enemyHealth < 0)
+		{
+			enemyHealth = 0;
+		}
+		cout << "Your health is: " << playerHealth << endl;
+		cout << "Enemy health is: " << enemyHealth << endl;
 		break;
 	}
 	return 0;
@@ -86,7 +113,6 @@ int attackChoice(int playerChoice)
 int main()
 {
 	int playerChoice{};
-	playState(Playing);
 	if (!Playing)
 	{
 		cout << "Thanks for playing" << endl;
