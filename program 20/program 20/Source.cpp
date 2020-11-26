@@ -5,7 +5,7 @@ int playerHealth = 1000, enemyHealth = 2000;
 bool Playing = true;
 
 
-bool playState(bool Playing)
+bool playState()
 {
 	char playAgain;
 	if (enemyHealth <= 0)
@@ -17,12 +17,12 @@ bool playState(bool Playing)
 		{
 			enemyHealth = 2000;
 			playerHealth = 1000;
-			return true;
+		Playing = true;
 
 		}
 		else(playAgain == 'n' || playAgain == 'N');
 		{
-			return false;
+			Playing = false;
 			
 		}
 	}	
@@ -35,19 +35,19 @@ bool playState(bool Playing)
 		{
 			enemyHealth = 2000;
 			playerHealth = 1000;
-			return true;
+			Playing = true;
 
 		}
 		else(playAgain == 'n' || playAgain == 'N');
 		{
-			return false;
+			Playing = false;
 
 		}	
 
 	}	
 
 
-	return false;
+	return Playing;
 }
 
 int attackNothing()
@@ -130,8 +130,12 @@ int main()
 		cout << "\n1. Use sword, 2. Use magic, 3. Use axe\n Your sword will do little damage but quickly,\n your magic will do large amounts of magic damage very slowly,\n your axe will do a medium amount of damage at a medium speed" << endl;
 		cin >> playerChoice;
 		attackChoice(playerChoice);
-		playState(Playing);
+		playState();
 		
+	}
+	if (Playing == false)
+	{
+		cout << "thanks for playing" << endl;
 	}
 	return 0;
 }
