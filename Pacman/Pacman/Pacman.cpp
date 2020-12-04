@@ -93,7 +93,7 @@ void Pacman::Update(int elapsedTime)
 	{
 		CheckPaused(keyboardState, Input::Keys::P);
 	}
-		if (!_paused)
+		if (!_paused || !_started)
 		{
 			//munchie frame count continues
 			_munchieframeCount++;
