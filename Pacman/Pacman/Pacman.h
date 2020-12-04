@@ -24,8 +24,6 @@ struct Player
 	Rect* sourceRect;
 	Texture2D* texture;
 	Vector2* position;
-	
-	
 };
 
 //class def
