@@ -13,7 +13,7 @@
 
 // Reduces the amount of typing by including all classes in S2D namespace
 using namespace S2D;
-
+  
 //structure def
 struct Player
 {
