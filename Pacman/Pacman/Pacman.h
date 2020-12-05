@@ -26,46 +26,57 @@ struct Player
 	Vector2* position;
 };
 
+//structure def
+struct Collectible
+{
+	int frameCount;
+	Rect* Rect;
+	Texture2D* BlueTexture;
+	Texture2D* InvertedTexture;
+	int Frame;
+	int CurrentFrameTime;
+};
+
+//structure def
+struct Menu
+{
+	Texture2D* Background;
+	Rect* Rectangle;
+	Vector2* StringPosition;
+};
+
 //class def
 class Pacman : public Game
 {
 private:
+	//player name
 	Player* _pacman;
 
-	
+	//collectibles
+	Collectible* _munchie;
+
+	//menu
+	Menu* _pause;
+	Menu* _start;
+
 	//Input methods
 	void Input(int elapsedTime, Input::KeyboardState* state);
 
 	//Check methods
 	void CheckPaused(Input::KeyboardState* state, Input::Keys pauseKey);
 	void CheckViewportCollision();
-	void CheckStart(Input::KeyboardState* state, Input::Keys startkey);
+	void StartMenu(Input::KeyboardState* state, Input::Keys startkey);
 
 	//Update methods
 	void UpdatePacman(int elapsedTime);
 	void UpdateMunchie(int elapsedTime);
 
-	//pacman direction animation data
-	int _pacmanDirection;
-
 	//pacman mouth animation
-	int _pacmanFrame; 
-	int _pacmanCurrentFrameTime;
 	const int _cPacmanFrameTime;
 
-	// Data to represent Pacman
-	Vector2* _pacmanPosition;
-	Rect* _pacmanSourceRect;
-	Texture2D* _pacmanTexture;
-
 	// Data to represent Munchie
-	int _munchieframeCount;
-	Rect* _munchieRect;
-	Texture2D* _munchieBlueTexture;
-	Texture2D* _munchieInvertedTexture;
 	const int _cMunchieFrameTime;
-	int _munchieFrame;
-	int _munchieCurrentFrameTime;
+	
 
 	// Position for String
 	Vector2* _stringPosition;
@@ -74,16 +85,10 @@ private:
 	const float _cPacmanSpeed;
 
 	// Data for Menu
-	Texture2D* _menuBackground;
-	Rect* _menuRectangle;
-	Vector2* _menuStringPosition; 
 	bool _paused;
 	bool _pKeyDown;
 
 	//data for start menu
-	Texture2D* _StartBackground;
-	Rect* _StartRectangle;
-	Vector2* _StartStringPosition;
 	bool _started;
 
 public:
