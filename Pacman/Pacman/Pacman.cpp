@@ -93,16 +93,20 @@ void Pacman::LoadContent()
 
 void Pacman::Update(int elapsedTime)
 {
-
 	// Gets the current state of the keyboard
 	Input::KeyboardState* keyboardState = Input::Keyboard::GetState();
-
-
-	if(_started = true)
+	if (!_started)
+	{
+		//check start
+		if (keyboardState->IsKeyDown(Input::Keys::SPACE))
+		{
+			_started = true;
+		}
+	}
+	else
 	{
 		CheckPaused(keyboardState, Input::Keys::P);
-	}
-		if (!_paused || !_started)
+		if (!_paused)
 		{
 			//munchie frame count continues
 			_munchie->frameCount++;
@@ -111,6 +115,10 @@ void Pacman::Update(int elapsedTime)
 			UpdateMunchie(elapsedTime);
 			CheckViewportCollision();
 		}
+	}
+
+	
+	
 }
 
 void Pacman::Draw(int elapsedTime)
@@ -122,15 +130,6 @@ void Pacman::Draw(int elapsedTime)
 
 	SpriteBatch::BeginDraw(); // Starts Drawing
 	SpriteBatch::Draw(_pacman->texture, _pacman->position, _pacman->sourceRect); // Draws Pacman
-
-	if (!_started)
-	{
-		std::stringstream StartStream;
-		StartStream << "Push Spacebar to Start";
-
-		SpriteBatch::Draw(_start->Background, _start->Rectangle, nullptr);
-		SpriteBatch::DrawString(StartStream.str().c_str(), _start->StringPosition, Color::Red);
-	}
 
 	if (_munchie->frameCount == 0)
 	{
@@ -148,6 +147,18 @@ void Pacman::Draw(int elapsedTime)
 	
 	// Draws String
 	SpriteBatch::DrawString(stream.str().c_str(), _stringPosition, Color::Green);
+
+	//draws start menu 
+	if (!_started)
+	{
+		std::stringstream StartStream;
+		StartStream << "Push Spacebar to Start";
+
+		SpriteBatch::Draw(_start->Background, _start->Rectangle, nullptr);
+		SpriteBatch::DrawString(StartStream.str().c_str(), _start->StringPosition, Color::Red);
+	}
+
+	//draws pause menu
 	if (_paused)
 	{
 		std::stringstream menuStream;
@@ -204,6 +215,7 @@ void Pacman::CheckPaused(Input::KeyboardState* state, Input::Keys pauseKey)
 	{
 		_pKeyDown = false;
 	}
+
 }
 void Pacman::CheckViewportCollision()
 {
