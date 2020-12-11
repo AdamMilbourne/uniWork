@@ -87,7 +87,7 @@ int DrawBoard()
 	return 0;
 }
 
-
+ 
 int Drawboard(int guess1, int guess2)
 {
 	system("cls");
