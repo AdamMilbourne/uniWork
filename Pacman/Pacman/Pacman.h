@@ -8,8 +8,10 @@
 	#endif
 #endif
 
+#define MUNCHIECOUNT 50
 // Just need to include main header file
 #include "S2D/S2D.h"
+#include "S2D/MathHelper.h"
 
 // Reduces the amount of typing by including all classes in S2D namespace
 using namespace S2D;
@@ -27,7 +29,7 @@ struct Player
 };
 
 //structure def
-struct Collectible
+struct Enemy
 {
 	int frameCount;
 	Rect* Rect;
@@ -35,6 +37,9 @@ struct Collectible
 	Texture2D* InvertedTexture;
 	int Frame;
 	int CurrentFrameTime;
+	Vector2* position;
+	int frameTime;
+
 };
 
 //structure def
@@ -53,7 +58,7 @@ private:
 	Player* _pacman;
 
 	//collectibles
-	Collectible* _munchie;
+	Enemy* _munchies[MUNCHIECOUNT];
 
 	//menu
 	Menu* _pause;
@@ -69,13 +74,12 @@ private:
 
 	//Update methods
 	void UpdatePacman(int elapsedTime);
-	void UpdateMunchie(int elapsedTime);
+	void UpdateMunchies(Enemy*, int elapsedTime);
 
 	//pacman mouth animation
 	const int _cPacmanFrameTime;
 
-	// Data to represent Munchie
-	const int _cMunchieFrameTime;
+	
 	
 
 	// Position for String
