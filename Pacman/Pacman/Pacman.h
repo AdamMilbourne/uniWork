@@ -59,13 +59,14 @@ private:
 
 	//collectibles
 	Enemy* _munchies[MUNCHIECOUNT];
+	Enemy* _Cherry;
 
 	//menu
 	Menu* _pause;
 	Menu* _start;
 
 	//Input methods
-	void Input(int elapsedTime, Input::KeyboardState* state);
+	void Input(int elapsedTime, Input::KeyboardState* state, Input::MouseState* mouseState);
 
 	//Check methods
 	void CheckPaused(Input::KeyboardState* state, Input::Keys pauseKey);
@@ -75,12 +76,10 @@ private:
 	//Update methods
 	void UpdatePacman(int elapsedTime);
 	void UpdateMunchies(Enemy*, int elapsedTime);
+	void UpdateCherries(Enemy*, int elapsedTime);
 
 	//pacman mouth animation
 	const int _cPacmanFrameTime;
-
-	
-	
 
 	// Position for String
 	Vector2* _stringPosition;
@@ -94,6 +93,11 @@ private:
 
 	//data for start menu
 	bool _started;
+
+	//data for random cherries
+	bool _cherryRandomize;
+	bool _rKeyDown;
+
 
 public:
 	/// <summary> Constructs the Pacman class. </summary>

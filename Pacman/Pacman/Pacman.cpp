@@ -9,6 +9,7 @@ Pacman::Pacman(int argc, char* argv[]) : Game(argc, argv), _cPacmanSpeed(0.1f), 
 {
 	srand(time(NULL));
 
+	//munchie data
 	for (int i = 0; i < MUNCHIECOUNT; i++)
 	{
 		_munchies[i] = new Enemy();
@@ -17,13 +18,22 @@ Pacman::Pacman(int argc, char* argv[]) : Game(argc, argv), _cPacmanSpeed(0.1f), 
 		_munchies[i]->frameTime = rand() % 500 + 50;
 	}
 
+	//cherry data
+	_Cherry = new Enemy();
+	_Cherry->CurrentFrameTime = 0;
+	_Cherry->frameCount = rand() % 1;
+	_Cherry->frameTime = rand() % 500 + 50;
+
 	Input::KeyboardState* keyboardState = Input::Keyboard::GetState();
 	StartMenu(keyboardState, Input::Keys::SPACE);
+
 	//initialise member variables
 	_pacman = new Player();
 	_pause = new Menu();
 	_start = new Menu();
 
+	//pacman speed data
+	_pacman->speedMultiplier = 1.0f;
 
 	//pacman direction data
 	_pacman->direction = 0;
@@ -38,6 +48,10 @@ Pacman::Pacman(int argc, char* argv[]) : Game(argc, argv), _cPacmanSpeed(0.1f), 
 
 	//start menu data
 	_started = false;
+
+	//random cherry data
+	_cherryRandomize = false;
+	_rKeyDown = false;
 
 	//Initialise important Game aspects
 	Graphics::Initialise(argc, argv, this, 1024, 768, false, 25, 25, "Pacman", 60);
@@ -61,6 +75,7 @@ void Pacman::StartMenu(Input::KeyboardState* state, Input::Keys startkey)
 //destructor method
 Pacman::~Pacman()
 {
+	//pacman destructor
 	delete _pacman->texture;
 	delete _pacman->sourceRect;
 	
@@ -78,18 +93,34 @@ Pacman::~Pacman()
 	}
 	delete[] _munchies;
 	//remaining clean up...
+
+	//clean up texture
+	delete _Cherry->BlueTexture;
+		
+	delete _Cherry->BlueTexture;
+	delete _Cherry->InvertedTexture;
+	delete _Cherry->position;
+	delete _Cherry->Rect;
+	delete _Cherry;
+	//remaining clean up...
+
 }
 
 void Pacman::LoadContent()
 {
 	//munchie texture
 	Texture2D* munchieTex = new Texture2D();
-	munchieTex->Load("Textures/Cherry.png", false);
+	munchieTex->Load("Textures/Munchie.png", false);
 
 	for (int i = 0; i < MUNCHIECOUNT; i++)
 	{
 		_munchies[i]->BlueTexture = munchieTex;
 	}
+
+	//cherry Texture
+	Texture2D* CherryTex = new Texture2D();
+	CherryTex->Load("Textures/Cherry.png", false);
+	_Cherry->BlueTexture = CherryTex;
 
 
 	//set start parameters
@@ -110,16 +141,26 @@ void Pacman::LoadContent()
 	_pacman->position = new Vector2(350.0f, 350.0f);
 	_pacman->sourceRect = new Rect(0.0f, 0.0f, 32, 32);
 
+	//Load cherry 
+	_Cherry->BlueTexture = new Texture2D();
+	_Cherry->BlueTexture->Load("Textures/Cherry.png", false);
+	_Cherry->InvertedTexture = new Texture2D();
+	_Cherry->InvertedTexture->Load("Textures/CherryInverted.png", false);
+	_Cherry->Rect = new Rect(100.0f, 450.0f, 34, 34);
+	
+
 	// Load Munchie
 	for (int i = 0; i < MUNCHIECOUNT; i++)
 	{
 		_munchies[i]->BlueTexture = new Texture2D();
-		_munchies[i]->BlueTexture->Load("Textures/Cherry.png", false);
+		_munchies[i]->BlueTexture->Load("Textures/Munchie.png", false);
 		_munchies[i]->InvertedTexture = new Texture2D();
-		_munchies[i]->InvertedTexture->Load("Textures/CherryInverted.png", false);
-		_munchies[i]->Rect = new Rect(100.0f, 450.0f, 32, 32);
+		_munchies[i]->InvertedTexture->Load("Textures/MunchieInverted.png", false);
+		_munchies[i]->Rect = new Rect(100.0f, 450.0f, 12, 12);
 		_munchies[i]->position = new Vector2((rand() % Graphics::GetViewportWidth()), (rand() % Graphics::GetViewportHeight()));
 	}
+	
+
 
 	// Set string position
 	_stringPosition = new Vector2(10.0f, 25.0f);
@@ -129,6 +170,8 @@ void Pacman::Update(int elapsedTime)
 {
 	// Gets the current state of the keyboard
 	Input::KeyboardState* keyboardState = Input::Keyboard::GetState();
+	Input::MouseState* mouseState = Input::Mouse::GetState();
+
 	if (!_started)
 	{
 		//check start
@@ -142,7 +185,7 @@ void Pacman::Update(int elapsedTime)
 		CheckPaused(keyboardState, Input::Keys::P);
 		if (!_paused)
 		{
-			Input(elapsedTime, keyboardState);
+			Input(elapsedTime, keyboardState, mouseState);
 			UpdatePacman(elapsedTime);
 			CheckViewportCollision();
 
@@ -153,6 +196,11 @@ void Pacman::Update(int elapsedTime)
 				UpdateMunchies(_munchies[i], elapsedTime);	
 			}
 		}
+	}
+
+	if (_cherryRandomize == true)
+	{
+		_Cherry->position = new Vector2((rand() % Graphics::GetViewportWidth()), (rand() % Graphics::GetViewportHeight()));
 	}
 }
 
@@ -180,6 +228,20 @@ void Pacman::Draw(int elapsedTime)
 			if (_munchies[i]->frameCount >= 60)
 				_munchies[i]->frameCount = 0;
 		}
+	}
+
+	if (_Cherry->frameCount == 0)
+	{
+		// Draws Red Munchie
+		SpriteBatch::Draw(_Cherry->InvertedTexture, _Cherry->Rect, nullptr, Vector2::Zero, 1.0f, 0.0f, Color::White, SpriteEffect::NONE);
+		_Cherry->frameCount++;
+	}
+	else
+	{
+		// Draw Blue Munchie
+		SpriteBatch::Draw(_Cherry->BlueTexture, _Cherry->Rect, nullptr, Vector2::Zero, 1.0f, 0.0f, Color::White, SpriteEffect::NONE);
+		if (_Cherry->frameCount >= 60)
+			_Cherry->frameCount = 0;
 	}
 	
 	// Draws String
@@ -209,31 +271,69 @@ void Pacman::Draw(int elapsedTime)
 	SpriteBatch::EndDraw(); // Ends Drawing
 }
 
-void Pacman::Input(int elapsedTime, Input::KeyboardState* state)
-{
-	// Checks if right arrow key is pressed
-	if (state->IsKeyDown(Input::Keys::RIGHT))
+void Pacman::Input(int elapsedTime, Input::KeyboardState* state, Input::MouseState* mouseState)
+{	
+	float pacmanSpeed = _cPacmanSpeed * elapsedTime * _pacman->speedMultiplier;
+
+
+	//MOUSE INPUT
+	//reposition cherry
+	for (int i = 0; i < MUNCHIECOUNT; i++)
 	{
-		_pacman->position->X += _cPacmanSpeed * elapsedTime; //Moves Pacman across X axis
+		if (mouseState->LeftButton == Input::ButtonState::PRESSED)
+		{
+			_Cherry->position->X = mouseState->X;
+			_Cherry->position->Y = mouseState->Y;
+		}
+	}
+
+
+	//KEYBAORD INPUT
+	//Speed Multiplier (shift)
+	if (state->IsKeyDown(Input::Keys::LEFTSHIFT))
+	{
+		//apply multiplier
+		_pacman->speedMultiplier = 2.0f;
+	}
+	else
+	{
+		//reset multiplier
+		_pacman->speedMultiplier = 1.0f;
+	}
+
+	// Checks if right arrow key is pressed
+	if (state->IsKeyDown(Input::Keys::D))
+	{
+		_pacman->position->X += pacmanSpeed; //Moves Pacman across X axis
 		_pacman->direction = 0;
 	}
 	// Checks if A key is pressed
-	else if (state->IsKeyDown(Input::Keys::LEFT))
+	else if (state->IsKeyDown(Input::Keys::A))
 	{
-		_pacman->position->X += -_cPacmanSpeed * elapsedTime; //Moves Pacman across X axis
+		_pacman->position->X += -pacmanSpeed; //Moves Pacman across X axis
 		_pacman->direction = 2;
 	}
 	// Checks if W key is pressed
-	else if (state->IsKeyDown(Input::Keys::UP))
+	else if (state->IsKeyDown(Input::Keys::W))
 	{
-		_pacman->position->Y += -_cPacmanSpeed * elapsedTime; //Moves Pacman across Y axis
+		_pacman->position->Y += -pacmanSpeed; //Moves Pacman across Y axis
 		_pacman->direction = 3;
 	}
 	// Checks if S key is pressed
-	else if (state->IsKeyDown(Input::Keys::DOWN))
+	else if (state->IsKeyDown(Input::Keys::S))
 	{
-		_pacman->position->Y += _cPacmanSpeed * elapsedTime; //Moves Pacman across Y axis
+		_pacman->position->Y += pacmanSpeed; //Moves Pacman across Y axis
 		_pacman->direction = 1;
+	}
+
+	if (state->IsKeyDown(Input::Keys::R) && !_rKeyDown)
+	{
+		_rKeyDown = true;
+		_cherryRandomize = true;
+	}
+	if (state->IsKeyUp(Input::Keys::R))
+	{
+		_rKeyDown = false;
 	}
 }
 
@@ -321,8 +421,22 @@ void Pacman::UpdateMunchies(Enemy*, int elapsedTime)
 
 			_munchies[i]->CurrentFrameTime = 0;
 		}
-
 	}
+}
 
+void Pacman::UpdateCherries(Enemy*, int elapsedTime)
+{
+	//Cherry animation
+	_Cherry->CurrentFrameTime += elapsedTime;
+	_Cherry->Rect->X = _Cherry->Rect->Width * _Cherry->Frame;
 
+	if (_Cherry->CurrentFrameTime > _Cherry->frameTime)
+	{
+		_Cherry->frameCount++;
+
+		if (_Cherry->frameCount >= 2)
+			_Cherry->frameCount = 0;
+
+		_Cherry->CurrentFrameTime = 0;
+	}
 }
