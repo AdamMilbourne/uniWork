@@ -12,6 +12,11 @@ int oddOrEven(int num1, int Odd)
 	}
 	return Odd;
 }
+void outputResults(int numOfOdd, int Oddtotal, int numOfEven, int evenTotal)
+{
+	cout << "Number of odds are: " << numOfOdd << " Grand total of all odds is: " << Oddtotal << "Number of evens are: " << numOfEven << " Grand total of all evens is: " << evenTotal << endl;
+
+}
 int main()
 {
 	int num1{}, num2{}, num3{}, num4{}, num5{}, num6{}, num7{}, num8{}, num9{}, num10{}, numOfOdd{}, Oddtotal{}, numOfEven{}, evenTotal{};
@@ -34,6 +39,8 @@ int main()
 			evenTotal = evenTotal + num1;
 			cout << "is Even" << endl;
 		}
-	}
-	cout << "Number of odds are: " << numOfOdd << " Grand total of all odds is: " << Oddtotal << "Number of evens are: " << numOfEven << " Grand total of all evens is: " << evenTotal << endl;
+	}	
+	outputResults(numOfOdd, Oddtotal , numOfEven, evenTotal);
 }
+
+

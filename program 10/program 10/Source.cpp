@@ -9,4 +9,6 @@ int main()
 
 	std::cout << "Packets For Each Student: " << packetsPerStudent << std::endl;
 	std::cout << "Packets Left For Me: " << packetsLeftForMe << std::endl;
+
+	return 0;
 }
