@@ -4,13 +4,21 @@
 
 #include <time.h>
 
+#include <Windows.h>
+
 //CONSTRUCTOR
 Pacman::Pacman(int argc, char* argv[]) : Game(argc, argv), _cPacmanSpeed(0.1f), _cPacmanFrameTime(250)
 {
 	srand(time(NULL));
-	
+
+
 	//sound initialise
-	_pop = new SoundEffect();
+	CherryEat = new SoundEffect();
+	Death = new SoundEffect();
+	Waka = new SoundEffect();
+	Theme = new SoundEffect();
+
+	
 
 	for (int i = 0; i < GHOSTCOUNT; i++)
 	{
@@ -74,8 +82,16 @@ Pacman::Pacman(int argc, char* argv[]) : Game(argc, argv), _cPacmanSpeed(0.1f), 
 	Graphics::Initialise(argc, argv, this, 1024, 768, false, 25, 25, "Pacman", 60);
 	Input::Initialise();
 
+	if (!Audio::IsInitialised())
+	{
+		std::cout << "Audio is initiialised" << std::endl;
+	}
+
 	// Start the Game Loop - This calls Update and Draw in game loop
 	Graphics::StartGameLoop();
+
+	
+
 }
 
 
@@ -97,7 +113,10 @@ void Pacman::StartMenu(Input::KeyboardState* state, Input::Keys startkey)
 Pacman::~Pacman()
 {
 	//sound destructor
-	delete _pop;
+	delete Waka;
+	delete Death;
+	delete CherryEat;
+	delete Theme;
 
 	//pacman destructor
 	delete _pacman->texture;
@@ -133,6 +152,7 @@ Pacman::~Pacman()
 		delete _ghosts[i]->sourceRect;
 		delete _ghosts[i];
 	}
+
 }
 
 
@@ -140,7 +160,11 @@ Pacman::~Pacman()
 void Pacman::LoadContent()
 {
 	//pop sound load
-	_pop->Load("Sounds/pop.wav");
+	Waka->Load("Sounds/Waka.wav");
+	CherryEat->Load("Sounds/CherryEat.wav");
+	Death->Load("Sounds/Death.wav");
+	Theme->Load("Sounds/Theme.wav");
+
 
 	for (int i = 0; i < GHOSTCOUNT; i++)
 	{
@@ -207,6 +231,24 @@ void Pacman::LoadContent()
 
 	// Set string position
 	_stringPosition = new Vector2(10.0f, 25.0f);
+
+	if (!Waka->IsLoaded())
+	{
+		std::cout << "_pop member sound effect has not loaded" << std::endl;
+	}
+	if (!Death->IsLoaded())
+	{
+		std::cout << "_pop member sound effect has not loaded" << std::endl;
+	}
+	if (!CherryEat->IsLoaded())
+	{
+		std::cout << "_pop member sound effect has not loaded" << std::endl;
+	}
+	if (!Theme->IsLoaded())
+	{
+		std::cout << "_pop member sound effect has not loaded" << std::endl;
+	}
+	Audio::Play(Theme);
 }
 
 
@@ -237,6 +279,8 @@ void Pacman::Update(int elapsedTime)
 			CheckPaused(keyboardState, Input::Keys::P);
 			if (!_paused)
 			{
+				CheckCherryCollision();
+				CheckMunchieCollision();
 				UpdateGameOver(keyboardState, Input::Keys::ESCAPE);
 				CheckPaused(keyboardState, Input::Keys::P);
 				Input(elapsedTime, keyboardState, mouseState);
@@ -302,7 +346,7 @@ void Pacman::Draw(int elapsedTime)
 	SpriteBatch::Draw(_Cherry->Texture, _Cherry->position, _Cherry->Rect);
 			
 	// Draws String
-	SpriteBatch::DrawString(stream.str().c_str(), _stringPosition, Color::Green);
+	//SpriteBatch::DrawString(stream.str().c_str(), _stringPosition, Color::Green); // this is the X Y values shown in game(currently not needed)
 
 	//draws start menu 
 	if (!_started)
@@ -327,11 +371,16 @@ void Pacman::Draw(int elapsedTime)
 	if (_gameIsOver)
 	{
 		std::stringstream menuStream;
-		menuStream << "Game Over\n Press ESCAPE to play again";
+		menuStream << "Game Over\n Press ESCAPE to exit";
 
 		SpriteBatch::Draw(_gameOver->Background, _gameOver->Rectangle, nullptr);
 		SpriteBatch::DrawString(menuStream.str().c_str(), _gameOver->StringPosition, Color::Red);
 	}
+
+	std::stringstream scorestream;
+	scorestream << "Score:" << score;
+	SpriteBatch::DrawString(scorestream.str().c_str(), _stringPosition, Color::Red);
+
 
 	SpriteBatch::EndDraw(); // Ends Drawing
 }
@@ -346,11 +395,11 @@ void Pacman::Input(int elapsedTime, Input::KeyboardState* state, Input::MouseSta
 
 	//MOUSE INPUT
 	//reposition cherry
-		if (mouseState->LeftButton == Input::ButtonState::PRESSED)
+		/*if (mouseState->LeftButton == Input::ButtonState::PRESSED)
 		{
-			_Cherry->position->X = mouseState->X;
+			_Cherry->position->X = mouseState->X;                      //THIS MOVED THE CHERRY POSITION TO MOUSE CLICK HOWEVER I DO NOT NEED THIS FOR THE FINISHED PRODUCT.
 			_Cherry->position->Y = mouseState->Y;
-		}
+		}*/
 	
 
 
@@ -558,6 +607,7 @@ void Pacman::CheckGhostCollision()
 	int top1 = _pacman->position->Y;
 	int top2 = 0;
 
+	
 	for (i = 0; i < GHOSTCOUNT; i++)
 	{
 		//populate variables with ghost data
@@ -571,8 +621,9 @@ void Pacman::CheckGhostCollision()
 
 		if ((bottom1 > top2) && (top1 < bottom2) && (right1 > left2) && (left1 < right2))
 		{
-			_pacman->dead = true;
 			i = GHOSTCOUNT;
+			Audio::Play(Death);
+			_pacman->dead = true;
 		}
 	}
 }
@@ -585,10 +636,10 @@ void Pacman::UpdateGameOver(Input::KeyboardState* state, Input::Keys restartKey)
 	}
 	if (_gameIsOver == true)
 	{
-		if (state->IsKeyDown(Input::Keys::ESCAPE) && !_pKeyDown)
+		if (state->IsKeyDown(Input::Keys::ESCAPE) && !_escapeKeyDown)
 		{
 			_escapeKeyDown = true;
-			//restart code here
+			exit;
 		}
 		if (state->IsKeyUp(Input::Keys::ESCAPE))
 		{
@@ -623,8 +674,44 @@ void Pacman::CheckMunchieCollision()
 
 		if ((bottom1 > top2) && (top1 < bottom2) && (right1 > left2) && (left1 < right2))
 		{
-			
-			i = MUNCHIECOUNT;
+			_munchies[i]->position = new Vector2 (-100, -100);
+			Audio::Play(Waka);
+			score++;
 		}
 	}
+}
+
+void Pacman::CheckCherryCollision()
+{
+	//local Variables
+	int i = 0;
+	int bottom1 = _pacman->position->Y + _pacman->sourceRect->Height;
+	int bottom2 = 0;
+	int left1 = _pacman->position->X;
+	int left2 = 0;
+	int right1 = _pacman->position->X + _pacman->sourceRect->Height;
+	int right2 = 0;
+	int top1 = _pacman->position->Y;
+	int top2 = 0;
+
+	
+		//populate variables with ghost data
+		bottom2 = _Cherry->position->Y + _Cherry->Rect->Height;
+
+		left2 = _Cherry->position->X;
+
+		right2 = _Cherry->position->X + _Cherry->Rect->Width;
+
+		top2 = _Cherry->position->Y;
+
+		if ((bottom1 > top2) && (top1 < bottom2) && (right1 > left2) && (left1 < right2))
+		{
+			_Cherry->position = new Vector2(-100, -100);
+			Audio::Play(CherryEat);
+			for (int i = 0; i < 5; i++)
+			{
+				score++;
+			}
+		}
+	
 }

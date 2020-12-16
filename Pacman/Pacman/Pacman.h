@@ -13,6 +13,7 @@
 // Just need to include main header file
 #include "S2D/S2D.h"
 #include "S2D/MathHelper.h"
+#include <iostream>
 
 // Reduces the amount of typing by including all classes in S2D namespace
 using namespace S2D;
@@ -40,7 +41,6 @@ struct Enemy
 	int CurrentFrameTime;
 	Vector2* position;
 	int frameTime;
-
 };
 
 //structure def
@@ -66,7 +66,11 @@ struct MovingEnemy
 class Pacman : public Game
 {
 private:
-	SoundEffect* _pop;
+	//sound effects
+	SoundEffect* CherryEat;
+	SoundEffect* Death;
+	SoundEffect* Theme;
+	SoundEffect* Waka;
 
 	//player name
 	Player* _pacman;
@@ -83,6 +87,9 @@ private:
 	//movingenemy
 	MovingEnemy* _ghosts[GHOSTCOUNT];
 
+	//audio method
+
+
 	//Input methods
 	void Input(int elapsedTime, Input::KeyboardState* state, Input::MouseState* mouseState);
 
@@ -92,6 +99,7 @@ private:
 	void StartMenu(Input::KeyboardState* state, Input::Keys startkey);
 	void CheckGhostCollision();
 	void CheckMunchieCollision();
+	void CheckCherryCollision();
 
 	//Update methods
 	void UpdatePacman(int elapsedTime);
@@ -124,6 +132,11 @@ private:
 	bool _cherryRandomize;
 	bool _rKeyDown;
 
+	//collision data
+	bool collisionCheck;
+
+	//score 
+	int score;
 
 public:
 	/// <summary> Constructs the Pacman class. </summary>
