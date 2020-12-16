@@ -3,7 +3,7 @@ using namespace std;
 
 int main()
 {
-	int count = 6;
+	int count = 4;
 
 	for (int i = 1; i < count; i++)
 	{

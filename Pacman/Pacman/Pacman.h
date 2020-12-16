@@ -9,6 +9,7 @@
 #endif
 
 #define MUNCHIECOUNT 50
+#define GHOSTCOUNT 4
 // Just need to include main header file
 #include "S2D/S2D.h"
 #include "S2D/MathHelper.h"
@@ -26,6 +27,7 @@ struct Player
 	Rect* sourceRect;
 	Texture2D* texture;
 	Vector2* position;
+	bool dead;
 };
 
 //structure def
@@ -33,8 +35,7 @@ struct Enemy
 {
 	int frameCount;
 	Rect* Rect;
-	Texture2D* BlueTexture;
-	Texture2D* InvertedTexture;
+	Texture2D* Texture;
 	int Frame;
 	int CurrentFrameTime;
 	Vector2* position;
@@ -50,20 +51,37 @@ struct Menu
 	Vector2* StringPosition;
 };
 
+//structure def
+struct MovingEnemy
+{
+	Vector2* position;
+	Texture2D* texture;
+	Rect* sourceRect;
+	int direction;
+	float speed;
+};
+
+
 //class def
 class Pacman : public Game
 {
 private:
+	SoundEffect* _pop;
+
 	//player name
 	Player* _pacman;
 
-	//collectibles
+	//Enemy
 	Enemy* _munchies[MUNCHIECOUNT];
 	Enemy* _Cherry;
 
 	//menu
 	Menu* _pause;
 	Menu* _start;
+	Menu* _gameOver;
+
+	//movingenemy
+	MovingEnemy* _ghosts[GHOSTCOUNT];
 
 	//Input methods
 	void Input(int elapsedTime, Input::KeyboardState* state, Input::MouseState* mouseState);
@@ -72,11 +90,15 @@ private:
 	void CheckPaused(Input::KeyboardState* state, Input::Keys pauseKey);
 	void CheckViewportCollision();
 	void StartMenu(Input::KeyboardState* state, Input::Keys startkey);
+	void CheckGhostCollision();
+	void CheckMunchieCollision();
 
 	//Update methods
 	void UpdatePacman(int elapsedTime);
 	void UpdateMunchies(Enemy*, int elapsedTime);
 	void UpdateCherries(Enemy*, int elapsedTime);
+	void UpdateGhost(MovingEnemy*, int elapsedtime);
+	void UpdateGameOver(Input::KeyboardState* state, Input::Keys startkey);
 
 	//pacman mouth animation
 	const int _cPacmanFrameTime;
@@ -86,6 +108,10 @@ private:
 
 	//Constant data for Game Variables 
 	const float _cPacmanSpeed;
+	
+	//game over menu data
+	bool _gameIsOver;
+	bool _escapeKeyDown;
 
 	// Data for Menu
 	bool _paused;
