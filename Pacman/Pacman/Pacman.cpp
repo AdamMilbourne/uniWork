@@ -273,29 +273,32 @@ void Pacman::Update(int elapsedTime)
 	//pause everything
 	else
 	{
-		UpdateGameOver(keyboardState, Input::Keys::ESCAPE);
-		if (!_gameIsOver)
+		if (score < 55)
 		{
-			CheckPaused(keyboardState, Input::Keys::P);
-			if (!_paused)
+			UpdateGameOver(keyboardState, Input::Keys::ESCAPE);
+			if (!_gameIsOver)
 			{
-				CheckCherryCollision();
-				CheckMunchieCollision();
-				UpdateGameOver(keyboardState, Input::Keys::ESCAPE);
 				CheckPaused(keyboardState, Input::Keys::P);
-				Input(elapsedTime, keyboardState, mouseState);
-				UpdatePacman(elapsedTime);
-				for (int i = 0; i < GHOSTCOUNT; i++)
+				if (!_paused)
 				{
-					UpdateGhost(_ghosts[i], elapsedTime);
-				}
-				CheckGhostCollision();
-				CheckViewportCollision();
-				UpdateCherries(_Cherry, elapsedTime);
-				for (int i = 0; i < MUNCHIECOUNT; i++)
-				{
-					//munchie frame count continues
-					UpdateMunchies(_munchies[i], elapsedTime);
+					CheckCherryCollision();
+					CheckMunchieCollision();
+					UpdateGameOver(keyboardState, Input::Keys::ESCAPE);
+					CheckPaused(keyboardState, Input::Keys::P);
+					Input(elapsedTime, keyboardState, mouseState);
+					UpdatePacman(elapsedTime);
+					for (int i = 0; i < GHOSTCOUNT; i++)
+					{
+						UpdateGhost(_ghosts[i], elapsedTime);
+					}
+					CheckGhostCollision();
+					CheckViewportCollision();
+					UpdateCherries(_Cherry, elapsedTime);
+					for (int i = 0; i < MUNCHIECOUNT; i++)
+					{
+						//munchie frame count continues
+						UpdateMunchies(_munchies[i], elapsedTime);
+					}
 				}
 			}
 		}
@@ -371,7 +374,16 @@ void Pacman::Draw(int elapsedTime)
 	if (_gameIsOver)
 	{
 		std::stringstream menuStream;
-		menuStream << "Game Over\n Press ESCAPE to exit";
+		menuStream << "Game Over\n Press ESCAPE to exit\n your score was: " << score << endl;
+
+		SpriteBatch::Draw(_gameOver->Background, _gameOver->Rectangle, nullptr);
+		SpriteBatch::DrawString(menuStream.str().c_str(), _gameOver->StringPosition, Color::Red);
+	}
+
+	if (score == 55)
+	{
+		std::stringstream menuStream;
+		menuStream << "YOU WON";
 
 		SpriteBatch::Draw(_gameOver->Background, _gameOver->Rectangle, nullptr);
 		SpriteBatch::DrawString(menuStream.str().c_str(), _gameOver->StringPosition, Color::Red);

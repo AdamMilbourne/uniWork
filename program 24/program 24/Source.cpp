@@ -1,15 +1,11 @@
 #include<iostream>
 #include<stdlib.h>
 using namespace std;
-
 char arrBoardCards[10] = { 'A', 'B', 'C', 'D', 'E', 'E', 'D', 'C', 'B', 'A' };
-
 bool arrCardsFound[10] = { false };
 int attemptCount;
-
 int main()
 {
-
 	int Score = 0;
 	bool Playing = true;
 
@@ -58,15 +54,13 @@ int main()
 		{
 			attempts++
 		}
-
 		*/
 	}
 }
-
 int DrawBoard()
 {
 	system("cls");
-	
+
 	cout << "you have had" << attemptCount << "attempts." << endl;
 
 	for (int i = 0; i < 10; i++)
@@ -86,8 +80,6 @@ int DrawBoard()
 	}
 	return 0;
 }
-
- 
 int Drawboard(int guess1, int guess2)
 {
 	system("cls");
