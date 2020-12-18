@@ -25,9 +25,8 @@ void plus25(int& rNum)
 {
 	int temp = rNum;
 	temp = temp + 25;
-	cout << temp << endl;
 	rNum = temp;
-	cout << "rNum is: " << rNum << endl;
+
 
 }
 
@@ -36,5 +35,4 @@ void minus25(int& rNum)
 	int temp = rNum;
 	temp = temp - 25;
 	rNum = temp;
-	cout << "rNum is: " << rNum << endl;
 }
