@@ -163,7 +163,7 @@ void Pacman::LoadContent()
 	Waka->Load("Sounds/Waka.wav");
 	CherryEat->Load("Sounds/CherryEat.wav");
 	Death->Load("Sounds/Death.wav");
-	Theme->Load("Sounds/Theme.wav");
+	//Theme->Load("Sounds/Theme.wav");
 
 
 	for (int i = 0; i < GHOSTCOUNT; i++)
@@ -380,7 +380,7 @@ void Pacman::Draw(int elapsedTime)
 		SpriteBatch::DrawString(menuStream.str().c_str(), _gameOver->StringPosition, Color::Red);
 	}
 
-	if (score == 55)
+	if (score == 6)
 	{
 		std::stringstream menuStream;
 		menuStream << "YOU WON";

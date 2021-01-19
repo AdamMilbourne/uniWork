@@ -8,7 +8,7 @@
 	#endif
 #endif
 
-#define MUNCHIECOUNT 50
+#define MUNCHIECOUNT 1
 #define GHOSTCOUNT 4
 // Just need to include main header file
 #include "S2D/S2D.h"
