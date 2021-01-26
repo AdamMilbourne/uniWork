@@ -7,6 +7,7 @@ HelloGL::HelloGL(int argc, char* argv[])
 	glutInitWindowSize(800, 800);
 	glutCreateWindow("simple OpenGL Program");
 	glutDisplayFunc(GLUTCallbacks::Display);
+	glutTimerFunc(16, GLUTCallbacks::Timer, 16);
 	glutMainLoop();
 }
 
@@ -16,6 +17,11 @@ void HelloGL::Display()
 	DrawPolygon();
 	//DrawTriangle();
 	glFlush();
+}
+
+void HelloGL::Update()
+{
+	glutPostRedisplay();
 }
 
 void HelloGL::DrawPolygon()
@@ -30,7 +36,7 @@ void HelloGL::DrawPolygon()
 		glEnd();
 	}
 }
-void HelloGL::DrawTriangle()
+/*void HelloGL::DrawTriangle()
 {
 		glColor4f(2.0f, 0.5f, 1.0f, 0.0f);
 		glVertex2f(-0.75, 0.5); //top left
@@ -38,7 +44,7 @@ void HelloGL::DrawTriangle()
 		glVertex2f(0.75, -0.5); // bot right
 		glVertex2f(-0.75, -0.5); // bot left
 		glEnd();
-}
+}*/
 
 HelloGL::~HelloGL(void)
 {

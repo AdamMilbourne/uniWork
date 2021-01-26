@@ -17,7 +17,9 @@ public:
 
 	void DrawPolygon();
 
-	void DrawTriangle();
+	//void DrawTriangle();
+
+	void Update();
 };
 
 
