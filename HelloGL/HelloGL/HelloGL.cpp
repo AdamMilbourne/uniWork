@@ -35,15 +35,15 @@ void HelloGL::Update()
 void HelloGL::DrawPolygon()
 {
 	glPushMatrix();
-	//glRotatef(rotation, 0.0f, 0.0f, -1.0f);
+	glRotatef(rotation, 0.0f, 0.0f, -1.0f);
 	glBegin(GL_POLYGON);
 	{
 		glColor4f(2.0f, 0.5f, 1.0f, 0.0f); 	
 
-		glVertex2f(-0.37, 0.25); //top left
-		glVertex2f(0.37, 0.25); // top right
-		glVertex2f(0.37, -0.25); // bot right
-		glVertex2f(-0.37, -0.25); // bot left
+		glVertex2f(-0.8, 0.8); //top left
+		glVertex2f(-0.25, 0.8); // top right
+		glVertex2f(-0.25,0.3); // bot right
+		glVertex2f(-0.8, 0.3); // bot left
 		
 		glEnd();
 	}
@@ -55,10 +55,10 @@ void HelloGL::DrawTriangle()
 	{
 		glColor4f(2.0f, 0.5f, 1.0f, 0.0f);
 
-		glVertex2f(-0.25, 0.25); //top left
-		glVertex2f(-0.25, 0.25); // top right
-		glVertex2f(0.37, -0.25); // bot right
-		glVertex2f(-0.37, -0.25); // bot left
+		glVertex2f(0.75, 0.75); //top left
+		glVertex2f(0.75, 0.75); // top right
+		glVertex2f(0.25, 0.75 ); // bot right
+		glVertex2f(0.25, 0.25); // bot left
 		glEnd();
 	}
 }
@@ -70,10 +70,10 @@ void HelloGL::DrawRectangle()
 	{
 		glColor4f(2.0f, 0.5f, 1.0f, 0.0f);
 
-		glVertex2f(-0.75, 0.25); //top left
-		glVertex2f(0.75, 0.25); // top right
-		glVertex2f(0.75, -0.25); // bot right
-		glVertex2f(-0.75, -0.25); // bot left
+		glVertex2f(-0.75, -0.3); //top left
+		glVertex2f(0.75, -0.3); // top right
+		glVertex2f(0.75, -0.8); // bot right
+		glVertex2f(-0.75, -0.8); // bot left
 		glEnd();
 	}
 }
