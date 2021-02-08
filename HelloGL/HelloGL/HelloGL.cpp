@@ -12,7 +12,7 @@ HelloGL::HelloGL(int argc, char* argv[])
 	glutTimerFunc(REFRESHRATE, GLUTCallbacks::Timer, REFRESHRATE);
 	glutMainLoop();
 }
-
+ 
 void HelloGL::Display()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -35,7 +35,9 @@ void HelloGL::Update()
 void HelloGL::DrawPolygon()
 {
 	glPushMatrix();
+	glTranslatef(0.5, -0.5, 0.0);
 	glRotatef(rotation, 0.0f, 0.0f, -1.0f);
+	glTranslatef(0.5, -0.5, 0.0);
 	glBegin(GL_POLYGON);
 	{
 		glColor4f(2.0f, 0.5f, 1.0f, 0.0f); 	
@@ -51,6 +53,8 @@ void HelloGL::DrawPolygon()
 }
 void HelloGL::DrawTriangle()
 {
+	glPushMatrix();
+	glRotatef(rotation, 0.0f, 0.0f, 1.0f);
 	glBegin(GL_POLYGON);
 	{
 		glColor4f(2.0f, 0.5f, 1.0f, 0.0f);
@@ -61,11 +65,13 @@ void HelloGL::DrawTriangle()
 		glVertex2f(0.25, 0.25); // bot left
 		glEnd();
 	}
+	glPopMatrix();
 }
 
 void HelloGL::DrawRectangle()
 {
-
+	glPushMatrix();
+	glRotatef(rotation, 1.0f, 0.0f, 0.0f);
 	glBegin(GL_POLYGON);
 	{
 		glColor4f(2.0f, 0.5f, 1.0f, 0.0f);
@@ -76,6 +82,7 @@ void HelloGL::DrawRectangle()
 		glVertex2f(-0.75, -0.8); // bot left
 		glEnd();
 	}
+	glPopMatrix();
 }
 
 HelloGL::~HelloGL(void)
