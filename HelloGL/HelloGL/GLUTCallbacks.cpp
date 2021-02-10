@@ -25,7 +25,14 @@ namespace GLUTCallbacks
 
 	void GLUTCallbacks::Timer(int prefferedRefresh)
 	{
+		int updateTime = glutGet(GLUT_ELAPSED_TIME);
 		helloGL->Update();
-		glutTimerFunc(prefferedRefresh, GLUTCallbacks::Timer, prefferedRefresh);
+		updateTime = glutGet(GLUT_ELAPSED_TIME) - updateTime;
+		glutTimerFunc(prefferedRefresh - updateTime, GLUTCallbacks::Timer, prefferedRefresh);
+	}
+
+	void GLUTCallbacks::Keyboard(unsigned char key, int x, int y)
+	{
+		helloGL->Keyboard(key, x, y);
 	}
 }

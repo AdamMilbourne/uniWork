@@ -8,4 +8,6 @@ namespace GLUTCallbacks
 	void Display();
 
 	void Timer(int prefferedRefresh);
+
+	void Keyboard(unsigned char key, int x, int y);
 }
