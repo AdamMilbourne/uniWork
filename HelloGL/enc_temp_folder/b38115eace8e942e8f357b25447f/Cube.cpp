@@ -40,7 +40,7 @@ void Cube::Update()
 void Cube::Draw()
 {
 
-	glPushMatrix();
+
 	glEnableClientState(GL_VERTEX_ARRAY);
 
 	glEnableClientState(GL_COLOR_ARRAY);
@@ -59,6 +59,6 @@ void Cube::Draw()
 	glDisableClientState(GL_COLOR_ARRAY);
 
 	glDisableClientState(GL_VERTEX_ARRAY);
-	glPopMatrix();
+
 
 }

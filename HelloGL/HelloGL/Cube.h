@@ -15,7 +15,7 @@ private:
 	Vector3 _position;
 
 public:
-	Cube(int argc, char* argv[]);
+	Cube(float x, float y, float z);
 	~Cube();
 
 	void Draw();

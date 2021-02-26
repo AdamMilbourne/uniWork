@@ -8,6 +8,7 @@
 #include "Cube.h"
 #define REFRESHRATE 16
 
+class Cube;
 class HelloGL
 {
 public:
@@ -31,6 +32,7 @@ private:
 	float rotation;
 	Camera* camera;
 	Cube* cube[];
+	
 /*	static Vertex vertices[];
 	static Color colors[];
 	static Vertex indexedVertices[];
