@@ -49,12 +49,11 @@ void Cube::Draw()
 
 	glColorPointer(3, GL_FLOAT, 0, indexedColors);
 
-	glPushMatrix();
-	glTranslatef(_position.x, _position.y, _position.z);
-	//glRotatef(_rotation, 1.0f, 0.0f, 0.0f);
-	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_SHORT, indices);
 	
-	glPopMatrix();
+	glTranslatef(_position.x, _position.y, _position.z);
+	glRotatef(_rotation, 1.0f, 0.0f, 0.0f);
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_SHORT, indices);
+
 
 	glDisableClientState(GL_COLOR_ARRAY);
 

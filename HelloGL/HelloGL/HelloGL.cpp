@@ -4,20 +4,7 @@
 //CONSTRUCTOR 
 HelloGL::HelloGL(int argc, char* argv[])
 {
-	camera = new Camera();
-	//camera->eye.x = 0.0f; camera->eye.y = 0.0f; camera->eye.z = 1.0f;
-	camera->eye.x = 5.0f; camera->eye.y = 5.0f; camera->eye.z = -5.0f;
-	camera->center.x = 0.0f; camera->center.y = 0.0f; camera->center.z = 0.0f;
-	camera->up.x = 0.0f; camera->up.y = 1.0f; camera->up.z = 0.0f;
-	
-	for (int i = 0; i < 200; i++)
-	{
-		cube[i] = new Cube(((rand() % 400) / 10.0f) - 20.0f, ((rand() % 200) / 10.0f) - 10.0f, -(rand() % 1000) / 10.0f);
-	}
-	
-	
-	
-	//rotation = 0.0f;
+	rotation = 0.0f;
 	GLUTCallbacks::Init(this);
 	glutInit(&argc, argv);
 	glutKeyboardFunc(GLUTCallbacks::Keyboard);
@@ -35,13 +22,28 @@ HelloGL::HelloGL(int argc, char* argv[])
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	glCullFace(GL_BACK);
+
+
+
+	camera = new Camera();
+	camera->eye.x = 0.0f; camera->eye.y = 0.0f; camera->eye.z = 1.0f;
+	//camera->eye.x = 15.0f; camera->eye.y = 5.0f; camera->eye.z = -5.0f;
+	camera->center.x = 0.0f; camera->center.y = 0.0f; camera->center.z = 0.0f;
+	camera->up.x = 0.0f; camera->up.y = 1.0f; camera->up.z = 0.0f;
+
+	for (int i = 0; i < 200; i++)
+	{
+		cube[i] = new Cube(((rand() % 400) / 10.0f) - 20.0f, ((rand() % 200) / 10.0f) - 10.0f, -(rand() % 1000) / 10.0f);
+	}
+
+
 	glutMainLoop();
 }
 
 //DESCTRUCTOR
 HelloGL::~HelloGL(void)
 {
-
+	delete camera;
 }
  
 void HelloGL::Display()
@@ -68,7 +70,7 @@ void HelloGL::Update()
 		camera->center.x, camera->center.y, camera->center.z,
 		camera->up.x, camera->up.y, camera->up.z
 	);
-	glutPostRedisplay();
+
 	rotation += 0.5;
 	if (rotation >= 360.0f)
 	{
@@ -78,6 +80,8 @@ void HelloGL::Update()
 	{
 		cube[i]->Update();
 	}
+
+	glutPostRedisplay();
 }
 
 
@@ -87,6 +91,6 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 {
 	if (key == 'd' || key == 'D')
 	{
-		//rotation += 0.5;
+		rotation += 0.5;
 	}
 }
