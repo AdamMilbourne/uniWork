@@ -6,6 +6,7 @@
 #include "GLUTCallbacks.h"
 #include "Structures.h"
 #include "Cube.h"
+#include "MeshLoader.h"
 #define REFRESHRATE 16
 
 class Cube;
@@ -17,27 +18,17 @@ public:
 	//destrcutor
 	~HelloGL(void);
 	void Display();
-	//void DrawPolygon();
-	//void DrawTriangle();
-	//void DrawRectangle();
 	void Update();
 	void Keyboard(unsigned char key, int x, int y);
-	//void DrawCube();
-	//void DrawCubeArray();
-	//void DrawIndexedCube();
-	//void DrawIndexedCubeAlt();
-	//void DrawCubeArrayAlt();
+	
+	void InitObjects();
+	void InitGL(int argc, char* argv[]);
 
 private:
 	float rotation;
 	Camera* camera;
 	Cube* cube[200];
-	
-/*	static Vertex vertices[];
-	static Color colors[];
-	static Vertex indexedVertices[];
-	static Color indexedColors[];
-	static GLushort indices[];*/
+
 };
 
 

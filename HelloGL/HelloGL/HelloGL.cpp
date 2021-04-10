@@ -1,10 +1,10 @@
 #include "HelloGL.h"
 #include "Cube.h"
+#include "MeshLoader.h"
 
-//CONSTRUCTOR 
-HelloGL::HelloGL(int argc, char* argv[])
+void HelloGL::InitGL(int argc, char* argv[])
 {
-	rotation = 0.0f;
+	//used for initialising all GL functions rather than crowding the constructor
 	GLUTCallbacks::Init(this);
 	glutInit(&argc, argv);
 	glutKeyboardFunc(GLUTCallbacks::Keyboard);
@@ -17,28 +17,37 @@ HelloGL::HelloGL(int argc, char* argv[])
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glViewport(0, 0, 800, 800);
-	gluPerspective(100, 1, 0, 1000);
+	gluPerspective(100, 1, 1, 1000);
 	glMatrixMode(GL_MODELVIEW);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	glCullFace(GL_BACK);
-
+}
+void HelloGL::InitObjects()
+{
+	//used for initialising objects rather than crowding the constructor
+	Mesh* cubeMesh = MeshLoader::Load((char*)"cube.txt");
 
 
 	camera = new Camera();
 	camera->eye.x = 0.0f; camera->eye.y = 0.0f; camera->eye.z = 1.0f;
-	//camera->eye.x = 15.0f; camera->eye.y = 5.0f; camera->eye.z = -5.0f;
 	camera->center.x = 0.0f; camera->center.y = 0.0f; camera->center.z = 0.0f;
 	camera->up.x = 0.0f; camera->up.y = 1.0f; camera->up.z = 0.0f;
 
 	for (int i = 0; i < 200; i++)
 	{
-		cube[i] = new Cube(((rand() % 400) / 10.0f) - 20.0f, ((rand() % 200) / 10.0f) - 10.0f, -(rand() % 1000) / 10.0f);
+		cube[i] = new Cube(cubeMesh,((rand() % 400) / 10.0f) - 20.0f, ((rand() % 200) / 10.0f) - 10.0f, -(rand() % 1000) / 10.0f);
 	}
+}
 
-
+//CONSTRUCTOR 
+HelloGL::HelloGL(int argc, char* argv[])
+{
+	HelloGL::InitGL(argc, argv);
+	HelloGL::InitObjects();
 	glutMainLoop();
 }
+
 
 //DESCTRUCTOR
 HelloGL::~HelloGL(void)
