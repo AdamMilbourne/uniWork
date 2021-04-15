@@ -1,6 +1,8 @@
 #include "HelloGL.h"
 #include "Cube.h"
 #include "MeshLoader.h"
+#include "Pyramid.h"
+#include "SceneObject.h"
 
 void HelloGL::InitGL(int argc, char* argv[])
 {
@@ -25,19 +27,25 @@ void HelloGL::InitGL(int argc, char* argv[])
 }
 void HelloGL::InitObjects()
 {
+	rotation = 0.0f;
 	//used for initialising objects rather than crowding the constructor
 	Mesh* cubeMesh = MeshLoader::Load((char*)"cube.txt");
-
+	Mesh* PyramidMesh = MeshLoader::Load((char*)"pyramid.txt");
 
 	camera = new Camera();
 	camera->eye.x = 0.0f; camera->eye.y = 0.0f; camera->eye.z = 1.0f;
 	camera->center.x = 0.0f; camera->center.y = 0.0f; camera->center.z = 0.0f;
 	camera->up.x = 0.0f; camera->up.y = 1.0f; camera->up.z = 0.0f;
 
-	for (int i = 0; i < 200; i++)
+	for (int i = 0; i < 500; i++)
 	{
-		cube[i] = new Cube(cubeMesh,((rand() % 400) / 10.0f) - 20.0f, ((rand() % 200) / 10.0f) - 10.0f, -(rand() % 1000) / 10.0f);
+		objects[i] = new Cube(cubeMesh,((rand() % 400) / 10.0f) - 20.0f, ((rand() % 200) / 10.0f) - 10.0f, -(rand() % 1000) / 10.0f);
 	}
+	for (int i = 500; i < 1000; i++)
+	{
+		objects[i] = new Pyramid(PyramidMesh, ((rand() % 400) / 10.0f) - 20.0f, ((rand() % 200) / 10.0f) - 10.0f, -(rand() % 1000) / 10.0f);
+	}
+
 }
 
 //CONSTRUCTOR 
@@ -59,9 +67,9 @@ void HelloGL::Display()
 {
 	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	for (int i = 0; i < 200; i++)
+	for (int i = 0; i < 1000; i++)
 	{
-		cube[i]->Draw();
+		objects[i]->Draw();
 	}
 	glFlush();
 	glutSwapBuffers();
@@ -85,9 +93,9 @@ void HelloGL::Update()
 	{
 		rotation = 0.0f;
 	}
-	for (int i = 0; i < 200; i++)
+	for (int i = 0; i < 1000; i++)
 	{
-		cube[i]->Update();
+		objects[i]->Update();
 	}
 
 	glutPostRedisplay();

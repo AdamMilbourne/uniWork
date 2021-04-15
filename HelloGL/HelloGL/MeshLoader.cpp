@@ -1,5 +1,4 @@
 #include "MeshLoader.h"
-
 #include <iostream>
 #include <fstream>
 
@@ -10,6 +9,7 @@ namespace MeshLoader
 	void LoadVertices(ifstream& inFile, Mesh& mesh);
 	void LoadColours(ifstream& inFile, Mesh& mesh);
 	void LoadIndices(ifstream& inFile, Mesh& mesh);
+	void LoadCoordinates(ifstream& inFile, Mesh& mesh);
 
 	void LoadVertices(ifstream& inFile, Mesh& mesh)
 	{
@@ -33,8 +33,7 @@ namespace MeshLoader
 		//TODO: LOAD COLOURS
 		inFile >> mesh.ColorCount;
 
-		if (mesh.ColorCount > 0)
-		{
+		
 			mesh.Colors = new Color[mesh.ColorCount];
 
 			for (int i = 0; i < mesh.ColorCount; i++)
@@ -43,6 +42,19 @@ namespace MeshLoader
 				inFile >> mesh.Colors[i].g;
 				inFile >> mesh.Colors[i].b;
 			}
+		
+	}
+
+	void LoadCoordinates(ifstream& inFile, Mesh& mesh)
+	{
+		inFile >> mesh.TexCoordCount;
+
+		mesh.TexCoords = new TexCoord[mesh.TexCoordCount];
+
+		for (int i = 0; i < mesh.TexCoordCount; i++)
+		{
+			inFile >> mesh.TexCoords[i].u;
+			inFile >> mesh.TexCoords[i].v;
 		}
 	}
 
@@ -51,15 +63,14 @@ namespace MeshLoader
 		//TODO: Load Indices
 		inFile >> mesh.IndexCount;
 
-		if (mesh.IndexCount > 0)
-		{
+		
 			mesh.Indices = new GLushort[mesh.IndexCount];
 
 			for (int i = 0; i < mesh.IndexCount; i++)
 			{
 				inFile >> mesh.Indices[i];
 			}
-		}
+		
 	}
 
 	Mesh* MeshLoader::Load(char* path)
@@ -79,6 +90,7 @@ namespace MeshLoader
 		LoadVertices(inFile, * mesh);
 		LoadColours(inFile, * mesh);
 		LoadIndices(inFile, * mesh);
+		LoadCoordinates(inFile, *mesh);
 
 		inFile.close();
 

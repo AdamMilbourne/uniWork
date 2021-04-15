@@ -1,9 +1,9 @@
 #pragma once
-#include <Windows.h> // required for opengl on windows
-#include <gl/GL.h> // Opengl
-#include <gl/GLU.h> // opengl utilities
+#include <Windows.h>
+#include <gl/GL.h>
+#include <gl/GLU.h>
 #include "GL\freeglut.h" // freeglut library
-#include "GLUTCallbacks.h"
+
 
 struct Vector3
 {
@@ -29,11 +29,19 @@ struct Vertex
 	GLfloat x, y, z;
 };
 
+struct TexCoord
+{
+	GLfloat u, v;
+
+};
+
 struct Mesh
 {
 	Vertex* Vertices;
 	Color* Colors;
+	TexCoord* TexCoords;
 	GLushort* Indices;
-	int VertexCount, ColorCount, IndexCount;
-
+	int VertexCount, ColorCount, IndexCount, TexCoordCount;
 };
+
+

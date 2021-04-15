@@ -7,8 +7,12 @@
 #include "Structures.h"
 #include "Cube.h"
 #include "MeshLoader.h"
+#include "Pyramid.h"
+#include <iostream>
+#include <fstream>
 #define REFRESHRATE 16
 
+class Pyramid;
 class Cube;
 class HelloGL
 {
@@ -27,7 +31,7 @@ public:
 private:
 	float rotation;
 	Camera* camera;
-	Cube* cube[200];
+	SceneObject* objects[1000];
 
 };
 

@@ -1,38 +1,22 @@
-#include "Cube.h"
-#include <string>
-#include <iostream>
-#include <fstream>
-using namespace std;
+#include "Pyramid.h"
 
-int Cube::numVertices = 0;
-int Cube::numColors = 0;
-int Cube::numindices = 0;
+int Pyramid::numVertices = 0;
+int Pyramid::numColors = 0;
+int Pyramid::numindices = 0;
 
-//constructor
-Cube::Cube(Mesh* mesh, float x, float y, float z) : SceneObject(mesh)
+Pyramid::Pyramid(Mesh* mesh, float x, float y, float z) : SceneObject(mesh)
 {
 	_position.x = x;
 	_position.y = y;
 	_position.z = z;
-	
 }
 
-//destructor
-Cube::~Cube()
+Pyramid::~Pyramid()
 {
 
 }
 
-
-void Cube::Update()
-{
-	
-	_rotation += 1.0f;
-	
-}
-
-
-void Cube::Draw()
+void Pyramid::Draw()
 {
 	if (_mesh->Vertices != nullptr && _mesh->Colors != nullptr && _mesh->Indices != nullptr)
 	{
@@ -46,11 +30,10 @@ void Cube::Draw()
 
 		glColorPointer(3, GL_FLOAT, 0, _mesh->Colors);
 
-		
+
 		glTranslatef(_position.x, _position.y, _position.z);
-		glRotatef(_rotation, 1.0f, 0.0f, 0.0f);
-		glDrawElements(GL_TRIANGLES, _mesh->IndexCount, GL_UNSIGNED_SHORT,  _mesh->Indices);
-		
+		glDrawElements(GL_TRIANGLES, _mesh->IndexCount, GL_UNSIGNED_SHORT, _mesh->Indices);
+
 
 		glDisableClientState(GL_COLOR_ARRAY);
 
@@ -58,5 +41,9 @@ void Cube::Draw()
 		glPopMatrix();
 
 	}
+}
+
+void Pyramid::Update()
+{
 
 }

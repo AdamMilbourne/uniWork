@@ -5,17 +5,18 @@
 #include "GL\freeglut.h" // freeglut library
 #include "Structures.h"
 #include "SceneObject.h"
-
-class Cube : public SceneObject
+#include "fstream"
+#include "iostream"
+class Pyramid : public SceneObject
 {
 private:
-	GLfloat _rotation;
+	
 	Vector3 _position;
 	static int numVertices, numColors, numindices;
 
 public:
-	Cube(Mesh* mesh, float x, float y, float z);
-	~Cube();
+	Pyramid(Mesh* mesh, float x, float y, float z);
+	~Pyramid();
 
 	virtual void Draw();
 	virtual void Update();
