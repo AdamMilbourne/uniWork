@@ -40,6 +40,8 @@ bool Texture2D::Load(char* path, int width, int height)
 	glGenTextures(1, &_ID); // get new Texture ID
 	glBindTexture(GL_TEXTURE_2D, _ID); // bind the texture to ID
 	glTexImage2D(GL_TEXTURE, 0, 3, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, tempTextureData);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	delete[] tempTextureData; // clear data - we dont need this any more
 	return true;

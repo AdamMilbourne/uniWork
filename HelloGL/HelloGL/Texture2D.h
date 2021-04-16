@@ -15,6 +15,7 @@ class Texture2D
 private:
 	GLuint _ID;
 	int _width, _height;
+
 public:
 	Texture2D();
 	~Texture2D();

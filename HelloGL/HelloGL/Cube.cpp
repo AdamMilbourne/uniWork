@@ -15,6 +15,8 @@ Cube::Cube(Mesh* mesh,Texture2D* texture, float x, float y, float z) : SceneObje
 	_position.x = x;
 	_position.y = y;
 	_position.z = z;
+
+	_texture = texture;
 }
 
 //destructor

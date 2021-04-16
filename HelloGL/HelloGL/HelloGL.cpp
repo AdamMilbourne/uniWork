@@ -23,8 +23,8 @@ void HelloGL::InitGL(int argc, char* argv[])
 	gluPerspective(100, 1, 1, 1000);
 	glMatrixMode(GL_MODELVIEW);
 	glEnable(GL_TEXTURE_2D);
-	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
 	glCullFace(GL_BACK);
 }
 void HelloGL::InitObjects()
@@ -33,8 +33,18 @@ void HelloGL::InitObjects()
 	//used for initialising objects rather than crowding the constructor
 	Mesh* cubeMesh = MeshLoader::Load((char*)"cube.txt");
 	Mesh* PyramidMesh = MeshLoader::Load((char*)"pyramid.txt");
+
 	Texture2D* texture = new Texture2D();
-	texture->Load((char*)"penguins.raw", 512, 512);
+	texture->Load((char*)"Penguins.raw", 512, 512);
+
+	for (int i = 0; i < 500; i++)
+	{
+		objects[i] = new Cube(cubeMesh, texture, ((rand() % 400) / 10.0f) - 20.0f, ((rand() % 200) / 10.0f) - 10.0f, -(rand() % 1000) / 10.0f);
+	}
+	for (int i = 500; i < 1000; i++)
+	{
+		objects[i] = new Pyramid(PyramidMesh, ((rand() % 400) / 10.0f) - 20.0f, ((rand() % 200) / 10.0f) - 10.0f, -(rand() % 1000) / 10.0f);
+	}
 
 	camera = new Camera();
 	camera->eye.x = 0.0f; camera->eye.y = 0.0f; camera->eye.z = 1.0f;
@@ -42,15 +52,6 @@ void HelloGL::InitObjects()
 	camera->up.x = 0.0f; camera->up.y = 1.0f; camera->up.z = 0.0f;
 
 	
-
-	for (int i = 0; i < 500; i++)
-	{
-		objects[i] = new Cube(cubeMesh,texture,((rand() % 400) / 10.0f) - 20.0f, ((rand() % 200) / 10.0f) - 10.0f, -(rand() % 1000) / 10.0f);
-	}
-	for (int i = 500; i < 1000; i++)
-	{
-		objects[i] = new Pyramid(PyramidMesh, ((rand() % 400) / 10.0f) - 20.0f, ((rand() % 200) / 10.0f) - 10.0f, -(rand() % 1000) / 10.0f);
-	}
 
 	
 }
