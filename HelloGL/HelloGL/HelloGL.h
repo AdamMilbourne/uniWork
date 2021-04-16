@@ -12,6 +12,7 @@
 #include <fstream>
 #define REFRESHRATE 16
 
+class Texture2D;
 class Pyramid;
 class Cube;
 class HelloGL

@@ -89,8 +89,9 @@ namespace MeshLoader
 
 		LoadVertices(inFile, * mesh);
 		LoadColours(inFile, * mesh);
-		LoadIndices(inFile, * mesh);
 		LoadCoordinates(inFile, *mesh);
+		LoadIndices(inFile, * mesh);
+		
 
 		inFile.close();
 

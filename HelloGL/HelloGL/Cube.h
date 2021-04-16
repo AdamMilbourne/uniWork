@@ -6,15 +6,18 @@
 #include "Structures.h"
 #include "SceneObject.h"
 
+class Texture2D;
 class Cube : public SceneObject
 {
+protected:
+
 private:
 	GLfloat _rotation;
 	Vector3 _position;
 	static int numVertices, numColors, numindices;
 
 public:
-	Cube(Mesh* mesh, float x, float y, float z);
+	Cube(Mesh* mesh,Texture2D* texture, float x, float y, float z);
 	~Cube();
 
 	virtual void Draw();
