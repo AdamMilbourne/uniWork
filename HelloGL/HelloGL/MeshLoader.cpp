@@ -7,9 +7,10 @@ using namespace std;
 namespace MeshLoader
 {
 	void LoadVertices(ifstream& inFile, Mesh& mesh);
-	void LoadColours(ifstream& inFile, Mesh& mesh);
+	void LoadTexCoords(ifstream& inFile, Mesh& mesh);
+	void LoadNormals(ifstream& inFile, Mesh& mesh);
 	void LoadIndices(ifstream& inFile, Mesh& mesh);
-	void LoadCoordinates(ifstream& inFile, Mesh& mesh);
+	
 
 	void LoadVertices(ifstream& inFile, Mesh& mesh)
 	{
@@ -28,24 +29,7 @@ namespace MeshLoader
 		}
 	}
 
-	void LoadColours(ifstream& inFile, Mesh& mesh)
-	{
-		//TODO: LOAD COLOURS
-		inFile >> mesh.ColorCount;
-
-		
-			mesh.Colors = new Color[mesh.ColorCount];
-
-			for (int i = 0; i < mesh.ColorCount; i++)
-			{
-				inFile >> mesh.Colors[i].r;
-				inFile >> mesh.Colors[i].g;
-				inFile >> mesh.Colors[i].b;
-			}
-		
-	}
-
-	void LoadCoordinates(ifstream& inFile, Mesh& mesh)
+	void LoadTexCoords(ifstream& inFile, Mesh& mesh)
 	{
 		inFile >> mesh.TexCoordCount;
 
@@ -56,6 +40,22 @@ namespace MeshLoader
 			inFile >> mesh.TexCoords[i].u;
 			inFile >> mesh.TexCoords[i].v;
 		}
+	}
+
+	void LoadNormals(ifstream& inFile, Mesh& mesh)
+	{
+		inFile >> mesh.NormalCount;
+		
+	
+			mesh.Normals = new Vector3[mesh.NormalCount];
+			for (int i = 0; i < mesh.NormalCount; i++)
+			{
+				inFile >> mesh.Normals[i].x;
+				inFile >> mesh.Normals[i].y;
+				inFile >> mesh.Normals[i].z;
+			}
+		
+		
 	}
 
 	void LoadIndices(ifstream& inFile, Mesh& mesh)
@@ -88,8 +88,8 @@ namespace MeshLoader
 		}
 
 		LoadVertices(inFile, * mesh);
-		LoadColours(inFile, * mesh);
-		LoadCoordinates(inFile, *mesh);
+		LoadTexCoords(inFile, *mesh);
+		LoadNormals(inFile, *mesh);
 		LoadIndices(inFile, * mesh);
 		
 

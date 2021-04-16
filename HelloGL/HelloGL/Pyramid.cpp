@@ -18,7 +18,7 @@ Pyramid::~Pyramid()
 
 void Pyramid::Draw()
 {
-	if (_mesh->Vertices != nullptr && _mesh->Colors != nullptr && _mesh->Indices != nullptr)
+	/*if (_mesh->Vertices != nullptr && _mesh->Colors != nullptr && _mesh->Indices != nullptr)
 	{
 
 		glPushMatrix();
@@ -40,7 +40,7 @@ void Pyramid::Draw()
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glPopMatrix();
 
-	}
+	}*/
 }
 
 void Pyramid::Update()

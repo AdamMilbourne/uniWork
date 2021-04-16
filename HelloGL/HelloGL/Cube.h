@@ -14,7 +14,9 @@ protected:
 private:
 	GLfloat _rotation;
 	Vector3 _position;
-	static int numVertices, numColors, numindices;
+	static int numVertices, numindices;
+
+	Material* _material;
 
 public:
 	Cube(Mesh* mesh,Texture2D* texture, float x, float y, float z);
@@ -22,5 +24,6 @@ public:
 
 	virtual void Draw();
 	virtual void Update();
+	void MaterialFunc();
 };
 
