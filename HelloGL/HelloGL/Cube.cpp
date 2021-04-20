@@ -18,7 +18,8 @@ Cube::Cube(Mesh* mesh,Texture2D* texture, float x, float y, float z) : SceneObje
 	_position.z = z;
 
 	_texture = texture;
-	
+
+	CubeInput = new Input;
 }
 
 //destructor
@@ -28,11 +29,10 @@ Cube::~Cube()
 }
 
 
+
 void Cube::Update()
 {
-	
 	_rotation += 1.0f;
-	
 }
 
 void Cube::MaterialFunc()
@@ -46,6 +46,19 @@ void Cube::MaterialFunc()
 	_material->Specular.w = 1.0;
 	_material->shininess = 100.0f;
 
+}
+
+void Cube::ControlCube()
+{
+	if (CubeInput->W == true)
+	{
+		
+		glRotatef(_rotation, -1.0f, 0.0f, 0.0f);
+	}
+	if (CubeInput->A == true)
+	{
+		glRotatef(_rotation, 0.0f, -1.0f, 0.0f);
+	}
 }
 
 void Cube::Draw()
@@ -70,7 +83,9 @@ void Cube::Draw()
 
 		glPushMatrix();
 		glTranslatef(_position.x, _position.y, _position.z);
-		glRotatef(_rotation, 1.0f, 0.0f, 0.0f);
+		
+		ControlCube();
+
 		glDrawElements(GL_TRIANGLES, _mesh->IndexCount, GL_UNSIGNED_SHORT,  _mesh->Indices);
 		glPopMatrix();
 

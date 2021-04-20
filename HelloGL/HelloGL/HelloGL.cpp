@@ -5,6 +5,7 @@
 #include "SceneObject.h"
 #include"Texture2D.h"
 
+
 //CONSTRUCTOR 
 HelloGL::HelloGL(int argc, char* argv[])
 {
@@ -40,6 +41,7 @@ void HelloGL::InitGL(int argc, char* argv[])
 }
 void HelloGL::InitObjects()
 {
+
 	rotation = 0.0f;
 	//used for initialising objects rather than crowding the constructor
 	Mesh* cubeMesh = MeshLoader::Load((char*)"cube.txt");
@@ -56,6 +58,8 @@ void HelloGL::InitObjects()
 	camera->eye.x = 0.0f; camera->eye.y = 0.0f; camera->eye.z = 1.0f;
 	camera->center.x = 0.0f; camera->center.y = 0.0f; camera->center.z = 0.0f;
 	camera->up.x = 0.0f; camera->up.y = 1.0f; camera->up.z = 0.0f;
+
+	CubeInput = new Input();
 }
 void HelloGL::InitLighting()
 {
@@ -84,6 +88,7 @@ void HelloGL::InitLighting()
 HelloGL::~HelloGL(void)
 {
 	delete camera;
+
 }
  
 void HelloGL::Display()
@@ -96,6 +101,7 @@ void HelloGL::Display()
 	}
 	glFlush();
 	glutSwapBuffers();
+	
 }
 
 void HelloGL::Update()
@@ -131,8 +137,82 @@ void HelloGL::Update()
 
 void HelloGL::Keyboard(unsigned char key, int x, int y)
 {
-	if (key == 'd' || key == 'D')
+	
+	if (key == 'W' || key == 'w')
 	{
-		rotation += 0.5;
+
+		CubeInput->W = true;
+		CubeInput->A = false;
+		CubeInput->S = false;
+		CubeInput->D = false;
+		CubeInput->Q = false;
+		CubeInput->E = false;
+		CubeInput->X = false;
+		std::cout << "W pressed" << std::endl;
 	}
+	if (key == 'A' || key == 'a')
+	{
+		CubeInput->W = false;
+		CubeInput->A = true;
+		CubeInput->S = false;
+		CubeInput->D = false;
+		CubeInput->Q = false;
+		CubeInput->E = false;
+		CubeInput->X = false;
+		std::cout << "A pressed" << std::endl;
+	}
+	if (key == 'S')
+	{
+		CubeInput->W = false;
+		CubeInput->A = false;
+		CubeInput->S = true;
+		CubeInput->D = false;
+		CubeInput->Q = false;
+		CubeInput->E = false;
+		CubeInput->X = false;
+	}
+	if (key == 'D')
+	{
+		CubeInput->W = false;
+		CubeInput->A = false;
+		CubeInput->S = false;
+		CubeInput->D = true;
+		CubeInput->Q = false;
+		CubeInput->E = false;
+		CubeInput->X = false;
+	}
+	if (key == 'Q')
+	{
+		CubeInput->W = false;
+		CubeInput->A = false;
+		CubeInput->S = false;
+		CubeInput->D = false;
+		CubeInput->Q = true;
+		CubeInput->E = false;
+		CubeInput->X = false;
+	}
+	if (key == 'E')
+	{
+		CubeInput->W = false;
+		CubeInput->A = false;
+		CubeInput->S = false;
+		CubeInput->D = false;
+		CubeInput->Q = false;
+		CubeInput->E = true;
+		CubeInput->X = false;
+	}
+	if (key == 'X')
+	{
+		CubeInput->W = false;
+		CubeInput->A = false;
+		CubeInput->S = false;
+		CubeInput->D = false;
+		CubeInput->Q = false;
+		CubeInput->E = false;
+		CubeInput->X = true;
+	}
+	
+
+
+
 }

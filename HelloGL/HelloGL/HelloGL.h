@@ -29,6 +29,7 @@ public:
 	void InitObjects();
 	void InitGL(int argc, char* argv[]);
 	void InitLighting();
+	
 
 private:
 	float rotation;
@@ -36,7 +37,7 @@ private:
 	SceneObject* objects[1000];
 	Vector4* _lightPosition;
 	Lighting* _lightData;
-
+	Input* CubeInput;
 };
 
 

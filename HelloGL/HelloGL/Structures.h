@@ -4,7 +4,6 @@
 #include <gl/GLU.h>
 #include "GL\freeglut.h" // freeglut library
 
-
 struct Vector3
 {
 	float x;
@@ -60,4 +59,18 @@ struct Material
 	GLfloat shininess;
 };
 
+/*struct ObjVertex
+{
+	glm::vec3 position;
+	glm::vec3 color;
+	glm::vec2 texcoord;
+	glm::vec3 normal;
+};*/
+
+
+struct Input
+{
+	bool W, S, D, Q, E, F, X = false;
+	bool A = true;
+};
 

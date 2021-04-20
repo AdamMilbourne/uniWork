@@ -1,6 +1,7 @@
 #include "GLUTCallbacks.h"
 #include "HelloGL.h"
 
+
 //namespace implementation 
 namespace GLUTCallbacks
 {
@@ -21,6 +22,7 @@ namespace GLUTCallbacks
 		{
 			helloGL->Display();
 		}
+		glutKeyboardFunc(Keyboard);
 	}
 
 	void GLUTCallbacks::Timer(int prefferedRefresh)

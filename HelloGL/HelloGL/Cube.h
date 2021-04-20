@@ -6,6 +6,8 @@
 #include "Structures.h"
 #include "SceneObject.h"
 
+
+
 class Texture2D;
 class Cube : public SceneObject
 {
@@ -18,6 +20,7 @@ private:
 
 	Material* _material;
 
+	Input* CubeInput;
 public:
 	Cube(Mesh* mesh,Texture2D* texture, float x, float y, float z);
 	~Cube();
@@ -25,5 +28,8 @@ public:
 	virtual void Draw();
 	virtual void Update();
 	void MaterialFunc();
+	void ControlCube();
+	
+
 };
 
