@@ -68,9 +68,4 @@ struct Material
 };*/
 
 
-struct Input
-{
-	bool W, S, D, Q, E, F, X = false;
-	bool A = true;
-};
 

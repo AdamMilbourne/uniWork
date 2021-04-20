@@ -29,15 +29,17 @@ public:
 	void InitObjects();
 	void InitGL(int argc, char* argv[]);
 	void InitLighting();
+
+	void DrawString(const char* text, Vector3* position, Color* color);
 	
 
 private:
 	float rotation;
 	Camera* camera;
-	SceneObject* objects[1000];
+	SceneObject* objects[500];
 	Vector4* _lightPosition;
 	Lighting* _lightData;
-	Input* CubeInput;
+	
 };
 
 

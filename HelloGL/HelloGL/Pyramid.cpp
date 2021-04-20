@@ -40,7 +40,7 @@ void Pyramid::Draw()
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glPopMatrix();
 
-	}*/
+	}*/   // USED TO LOAD PYRAMIDS WONT WORK WITH NEW METHOD
 }
 
 void Pyramid::Update()

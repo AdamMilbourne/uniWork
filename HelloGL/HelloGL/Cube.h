@@ -14,13 +14,14 @@ class Cube : public SceneObject
 protected:
 
 private:
+	GLfloat _rotationValue;
 	GLfloat _rotation;
 	Vector3 _position;
 	static int numVertices, numindices;
 
 	Material* _material;
 
-	Input* CubeInput;
+	
 public:
 	Cube(Mesh* mesh,Texture2D* texture, float x, float y, float z);
 	~Cube();
@@ -28,7 +29,6 @@ public:
 	virtual void Draw();
 	virtual void Update();
 	void MaterialFunc();
-	void ControlCube();
 	
 
 };

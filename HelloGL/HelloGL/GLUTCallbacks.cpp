@@ -22,6 +22,7 @@ namespace GLUTCallbacks
 		{
 			helloGL->Display();
 		}
+		//keyboard input set up
 		glutKeyboardFunc(Keyboard);
 	}
 
@@ -35,6 +36,7 @@ namespace GLUTCallbacks
 
 	void GLUTCallbacks::Keyboard(unsigned char key, int x, int y)
 	{
+		//pointer to keyoard function
 		helloGL->Keyboard(key, x, y);
 	}
 }

@@ -27,4 +27,4 @@ static std::vector<Vertex> loadOBJ(const char* file_name)
 	//loaded success
 	return vertices;
 	
-}*/
+}*/   //ATTEMPT AT OBJ LOADING
